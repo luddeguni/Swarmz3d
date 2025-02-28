@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+
 public class BasicPlayerController : MonoBehaviour
 {
     /* 
@@ -16,11 +19,18 @@ public class BasicPlayerController : MonoBehaviour
     The direction this object is facing will be used to determine
     the direction of forces we will apply to our player.
     */
-    public float movementIntensity;
+    public float movementSpeed;
     /* 
     Creates a public variable that will be used to set 
     the movement intensity (from within Unity)
     */
+
+
+    public int health = 100;
+    public int mana = 20;
+    public int atkSpeed = 1;
+    public int projectiles = 1;
+    public int crittChance = 0;
 
     void Start()
     {
@@ -40,7 +50,7 @@ public class BasicPlayerController : MonoBehaviour
         // Move Forwards
         if (Input.GetKey(KeyCode.W))
         {
-            rb.velocity = ForwardDirection * movementIntensity;
+            rb.velocity = ForwardDirection * movementSpeed;
             /* You may want to try using velocity rather than force.
             This allows for a more responsive control of the movement
             possibly better suited to first person controls, eg: */
@@ -50,17 +60,17 @@ public class BasicPlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             // Adding a negative to the direction reverses it
-            rb.velocity = -ForwardDirection * movementIntensity;
+            rb.velocity = -ForwardDirection * movementSpeed;
         }
         // Move Rightwards (eg Strafe. *We are using A & D to swivel)
         if (Input.GetKey(KeyCode.D))
         {
-            rb.velocity = RightDirection * movementIntensity;
+            rb.velocity = RightDirection * movementSpeed;
         }
         // Move Leftwards
         if (Input.GetKey(KeyCode.A))
         {
-            rb.velocity = -RightDirection * movementIntensity;
+            rb.velocity = -RightDirection * movementSpeed;
         }
     }
 }
