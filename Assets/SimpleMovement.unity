@@ -122,6 +122,69 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &393611556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 393611558}
+  - component: {fileID: 393611557}
+  m_Layer: 0
+  m_Name: NavMeshSurfaceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &393611557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393611556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: fa3f798d2ffdffa4aafcfe718dceada7, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!4 &393611558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393611556}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.1631336, y: 15.412057, z: 35.620457}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &595227445
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,16 +328,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 595227445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aec3ab07b2bfcec41bc64e59bff5e642, type: 3}
+  m_Script: {fileID: 11500000, guid: 26f414cfabf96e047886465d894047ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTarget: {fileID: 968115505}
-  movementSpeed: 0
-  health: 100
-  mana: 100
-  atkSpeed: 1
-  projectiles: 1
-  crittChance: 0
+  moveSpeed: 5
+  baseHealth: 100
+  baseMana: 50
+  bonusHP: 0
+  bonusProjectiles: 0
+  critChance: 0.1
+  projectilePrefab: {fileID: 2979724279955580245, guid: 2f2eacea2e09fba41b8c9c7da77a9a93, type: 3}
+  firePoint: {fileID: 968115510}
+  projectileSpeed: 10
+  fireRate: 0.5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +660,7 @@ GameObject:
   - component: {fileID: 1329008194}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -667,7 +733,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329008193}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -6.47, y: 0, z: -11.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -726,6 +792,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 4273546079424472250, guid: f01664da997da514e9ec0c846aa67808, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -733,6 +803,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4273546079424472250, guid: f01664da997da514e9ec0c846aa67808, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2070242132}
+    - targetCorrespondingSourceObject: {fileID: 4273546079424472250, guid: f01664da997da514e9ec0c846aa67808, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2070242138}
   m_SourcePrefab: {fileID: 100100000, guid: f01664da997da514e9ec0c846aa67808, type: 3}
 --- !u!1 &2070242131 stripped
 GameObject:
@@ -751,9 +824,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b403df80be41ee48ace89ccb9f52959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  atkSpeed: 1
-  atkRange: 1
+  hp: 50
+  moveSpeed: 3
+  attackRange: 1
+  projectileCount: 3
+  critChance: 0
+  fireRate: 1
+  projectilePrefab: {fileID: 2979724279955580245, guid: 2f2eacea2e09fba41b8c9c7da77a9a93, type: 3}
+  firePoint: {fileID: 2070242137}
+--- !u!4 &2070242137 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 292215541848866617, guid: f01664da997da514e9ec0c846aa67808, type: 3}
+  m_PrefabInstance: {fileID: 2070242130}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &2070242138
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070242131}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -763,3 +868,4 @@ SceneRoots:
   - {fileID: 968115510}
   - {fileID: 2070242130}
   - {fileID: 1329008196}
+  - {fileID: 393611558}
