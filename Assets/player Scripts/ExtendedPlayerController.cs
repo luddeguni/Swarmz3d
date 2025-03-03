@@ -1,66 +1,149 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-public class ExtendedPlayerController : MonoBehaviour
-{
-    /* 
-    Create a variable called 'rb' that will represent the 
-    rigid body of this object.
-    */
-    private Rigidbody rb;
 
-    // Create a public variable for the cameraTarget object
-    public GameObject cameraTarget;
-    /* 
-    You will need to set the cameraTarget object in Unity. 
-    The direction this object is facing will be used to determine
-    the direction of forces we will apply to our player.
-    */
-    public float movementIntensity;
-    /* 
-    Creates a public variable that will be used to set 
-    the movement intensity (from within Unity)
-    */
+public class PlayerController3D : MonoBehaviour
+{
+    [Header("Movement Settings")]
+    public float moveSpeed = 5f;
+
+    [Header("Stats")]
+    public int baseHealth = 100;
+    public int baseMana = 50;
+    public int bonusHP = 0;
+    public int bonusProjectiles = 0;
+    public float critChance = 0.1f; // 10% chance
+
+    [Header("Shooting Settings")]
+    public GameObject projectilePrefab;
+    public Transform firePoint;
+    public float projectileSpeed = 10f;
+    public float fireRate = 0.5f; // seconds between shots
+
+    private int currentHealth;
+    private int currentMana;
+    private float nextFireTime = 0f;
 
     void Start()
     {
-        // make our rb variable equal the rigid body component
-        rb = GetComponent<Rigidbody>();
+        currentHealth = baseHealth + bonusHP;
+        currentMana = baseMana;
     }
 
     void Update()
     {
-        /* 
-    	Establish some directions 
-    	based on the cameraTarget object's orientation 
-    	*/
-        var ForwardDirection = cameraTarget.transform.forward;
-        var RightDirection = cameraTarget.transform.right;
+        HandleMovement();
+        HandleShooting();
+    }
 
-        // Move Forwards
-        if (Input.GetKey(KeyCode.W))
+    void HandleMovement()
+    {
+        float moveX = 0f, moveZ = 0f;
+        if (Input.GetKey(KeyCode.W)) moveZ += 1f;
+        if (Input.GetKey(KeyCode.S)) moveZ -= 1f;
+        if (Input.GetKey(KeyCode.A)) moveX -= 1f;
+        if (Input.GetKey(KeyCode.D)) moveX += 1f;
+
+        Vector3 moveDir = new Vector3(moveX, 0, moveZ).normalized;
+        transform.position += moveDir * moveSpeed * Time.deltaTime;
+    }
+
+    void HandleShooting()
+    {
+        // Left Mouse Button = 0
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
         {
-            rb.velocity = ForwardDirection * movementIntensity;
-            /* You may want to try using velocity rather than force.
-            This allows for a more responsive control of the movement
-            possibly better suited to first person controls, eg: */
-            //rb.velocity = ForwardDirection * movementIntensity;
+            if (Input.GetKey(KeyCode.X))
+                AutoAimShoot();
+            else
+                ManualAimShoot();
+
+            nextFireTime = Time.time + fireRate;
         }
-        // Move Backwards
-        if (Input.GetKey(KeyCode.S))
+    }
+
+    void ManualAimShoot()
+    {
+        // Raycast from camera to a horizontal plane at firePoint's height.
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, new Vector3(0, firePoint.position.y, 0));
+        float rayDistance;
+        if (groundPlane.Raycast(ray, out rayDistance))
         {
-            // Adding a negative to the direction reverses it
-            rb.velocity = -ForwardDirection * movementIntensity;
+            Vector3 hitPoint = ray.GetPoint(rayDistance);
+            Vector3 aimDirection = (hitPoint - firePoint.position).normalized;
+            ShootAtDirection(aimDirection);
         }
-        // Move Rightwards (eg Strafe. *We are using A & D to swivel)
-        if (Input.GetKey(KeyCode.D))
+        else
         {
-            rb.velocity = RightDirection * movementIntensity;
+            Debug.LogWarning("Raycast did not hit the ground plane.");
         }
-        // Move Leftwards
-        if (Input.GetKey(KeyCode.A))
+    }
+
+    void AutoAimShoot()
+    {
+        // Find all enemies in the scene.
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemies.Length > 0)
         {
-            rb.velocity = -RightDirection * movementIntensity;
+            GameObject nearestEnemy = enemies[0];
+            float minDistance = Vector3.Distance(firePoint.position, nearestEnemy.transform.position);
+            foreach (GameObject enemy in enemies)
+            {
+                float dist = Vector3.Distance(firePoint.position, enemy.transform.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    nearestEnemy = enemy;
+                }
+            }
+            Vector3 aimDirection = (nearestEnemy.transform.position - firePoint.position).normalized;
+            ShootAtDirection(aimDirection);
+        }
+        else
+        {
+            Debug.LogWarning("No enemies found, falling back to manual aim.");
+            ManualAimShoot();
+        }
+    }
+
+    void ShootAtDirection(Vector3 aimDirection)
+    {
+        int numProjectiles = 1 + bonusProjectiles;
+        float spreadAngle = 15f; // degrees between each projectile
+        float startAngle = -spreadAngle * (numProjectiles - 1) / 2f;
+        // Determine the base angle (in degrees) on the XZ plane.
+        float baseAngle = Mathf.Atan2(aimDirection.z, aimDirection.x) * Mathf.Rad2Deg;
+
+        for (int i = 0; i < numProjectiles; i++)
+        {
+            float currentAngle = baseAngle + startAngle + i * spreadAngle;
+            float rad = currentAngle * Mathf.Deg2Rad;
+            Vector3 projectileDir = new Vector3(Mathf.Cos(rad), 0, Mathf.Sin(rad));
+
+            GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            Projectile3D projectileScript = proj.GetComponent<Projectile3D>();
+            if (projectileScript != null)
+            {
+                projectileScript.direction = projectileDir;
+                projectileScript.speed = projectileSpeed;
+                projectileScript.damage = 10; // base damage value
+                projectileScript.critChance = critChance;
+                projectileScript.source = ProjectileSource.Player;
+            }
+            else
+            {
+                Debug.LogError("Projectile prefab is missing the Projectile3D component.");
+            }
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        Debug.Log("Player took " + damage + " damage. Current health: " + currentHealth);
+        if (currentHealth <= 0)
+        {
+            Debug.Log("Player died");
+            Destroy(gameObject);
         }
     }
 }
