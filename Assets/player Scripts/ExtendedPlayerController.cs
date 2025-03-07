@@ -8,6 +8,7 @@ public class PlayerController3D : MonoBehaviour
     [Header("Stats")]
     public int baseHealth = 100;
     public int baseMana = 50;
+    public int bonusMana;
     public int bonusHP = 0;
     public int bonusProjectiles = 0;
     public float critChance = 0.1f; // 10% chance
@@ -25,7 +26,7 @@ public class PlayerController3D : MonoBehaviour
     void Start()
     {
         currentHealth = baseHealth + bonusHP;
-        currentMana = baseMana;
+        currentMana = baseMana + bonusMana;
     }
 
     void Update()
@@ -48,7 +49,7 @@ public class PlayerController3D : MonoBehaviour
 
     void HandleShooting()
     {
-        // Left Mouse Button = 0
+       
         if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
         {
             if (Input.GetKey(KeyCode.X))
@@ -62,7 +63,7 @@ public class PlayerController3D : MonoBehaviour
 
     void ManualAimShoot()
     {
-        // Raycast from camera to a horizontal plane at firePoint's height.
+      
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, new Vector3(0, firePoint.position.y, 0));
         float rayDistance;
@@ -80,7 +81,7 @@ public class PlayerController3D : MonoBehaviour
 
     void AutoAimShoot()
     {
-        // Find all enemies in the scene.
+  .
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies.Length > 0)
         {
