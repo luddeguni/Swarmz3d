@@ -81,7 +81,7 @@ public class PlayerController3D : MonoBehaviour
 
     void AutoAimShoot()
     {
-  .
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies.Length > 0)
         {

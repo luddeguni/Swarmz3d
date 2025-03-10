@@ -1,0 +1,34 @@
+.Header {
+    font-size: 30px;
+    -unity-font: url("project://database/Assets/UI%20Toolkit/UnityThemes/Vinque%20Rg.otf?fileID=12800000&guid=828293bd58725804ca0847aefbdb2313&type=3#Vinque Rg");
+    -unity-font-style: bold;
+    opacity: 1;
+    width: 20%;
+    height: 5%;
+    translate: 0 0;
+    top: 70px;
+    align-self: center;
+    -unity-font-definition: initial;
+}
+
+.button {
+    width: 200px;
+    align-self: center;
+    top: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+    background-image: url("project://database/Assets/RPG%20Button%207/PNG/Green/Normal.png?fileID=21300000&guid=65dc19086cb389a4d82b95bd24f371a9&type=3#Normal");
+    -unity-font: url("project://database/Assets/UI%20Toolkit/UnityThemes/Vinque%20Rg.otf?fileID=12800000&guid=828293bd58725804ca0847aefbdb2313&type=3#Vinque Rg");
+    -unity-font-style: bold;
+    -unity-font-definition: initial;
+}

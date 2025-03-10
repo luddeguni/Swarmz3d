@@ -1,0 +1,12 @@
+.bars {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    font-size: 25px;
+    -unity-font: url("project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=1b9e31cfc7048674fa33ff59bbd1afc0&type=3#NotInter-Regular");
+    width: 95%;
+    height: 25%;
+    background-color: rgba(0, 0, 0, 0);
+    transition-timing-function: ease-in-out-bounce, ease;
+    transition-duration: 0s, 0s;
+    cursor: initial;
+    -unity-background-scale-mode: stretch-to-fill;
+}
