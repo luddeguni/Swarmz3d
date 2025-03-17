@@ -4,6 +4,7 @@ public class PlayerController3D : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
+    public float rotationSpeed = 100f;
 
     [Header("Stats")]
     public int baseHealth = 100;
@@ -22,6 +23,8 @@ public class PlayerController3D : MonoBehaviour
     private int currentHealth;
     private int currentMana;
     private float nextFireTime = 0f;
+    private bool autoAimEnabled = false;
+    private bool autoShooting = false;
 
     void Start()
     {
@@ -33,26 +36,30 @@ public class PlayerController3D : MonoBehaviour
     {
         HandleMovement();
         HandleShooting();
+        ToggleAutoAim();
+        ToggleAutoShooting();
     }
 
     void HandleMovement()
     {
-        float moveX = 0f, moveZ = 0f;
+        float moveZ = 0f;
         if (Input.GetKey(KeyCode.W)) moveZ += 1f;
         if (Input.GetKey(KeyCode.S)) moveZ -= 1f;
-        if (Input.GetKey(KeyCode.A)) moveX -= 1f;
-        if (Input.GetKey(KeyCode.D)) moveX += 1f;
 
-        Vector3 moveDir = new Vector3(moveX, 0, moveZ).normalized;
+        Vector3 moveDir = transform.forward * moveZ;
         transform.position += moveDir * moveSpeed * Time.deltaTime;
+
+        float rotation = 0f;
+        if (Input.GetKey(KeyCode.A)) rotation -= 1f;
+        if (Input.GetKey(KeyCode.D)) rotation += 1f;
+        transform.Rotate(Vector3.up, rotation * rotationSpeed * Time.deltaTime);
     }
 
     void HandleShooting()
     {
-       
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
+        if ((Input.GetMouseButtonDown(0) || autoShooting) && Time.time >= nextFireTime)
         {
-            if (Input.GetKey(KeyCode.X))
+            if (autoAimEnabled)
                 AutoAimShoot();
             else
                 ManualAimShoot();
@@ -61,9 +68,26 @@ public class PlayerController3D : MonoBehaviour
         }
     }
 
+    void ToggleAutoAim()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            autoAimEnabled = !autoAimEnabled;
+            Debug.Log("Auto Aim: " + (autoAimEnabled ? "Enabled" : "Disabled"));
+        }
+    }
+
+    void ToggleAutoShooting()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            autoShooting = !autoShooting;
+            Debug.Log("Auto Shooting: " + (autoShooting ? "Enabled" : "Disabled"));
+        }
+    }
+
     void ManualAimShoot()
     {
-      
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, new Vector3(0, firePoint.position.y, 0));
         float rayDistance;
@@ -81,7 +105,6 @@ public class PlayerController3D : MonoBehaviour
 
     void AutoAimShoot()
     {
-
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemies.Length > 0)
         {
@@ -109,9 +132,8 @@ public class PlayerController3D : MonoBehaviour
     void ShootAtDirection(Vector3 aimDirection)
     {
         int numProjectiles = 1 + bonusProjectiles;
-        float spreadAngle = 15f; // degrees between each projectile
+        float spreadAngle = 15f;
         float startAngle = -spreadAngle * (numProjectiles - 1) / 2f;
-        // Determine the base angle (in degrees) on the XZ plane.
         float baseAngle = Mathf.Atan2(aimDirection.z, aimDirection.x) * Mathf.Rad2Deg;
 
         for (int i = 0; i < numProjectiles; i++)
@@ -126,7 +148,7 @@ public class PlayerController3D : MonoBehaviour
             {
                 projectileScript.direction = projectileDir;
                 projectileScript.speed = projectileSpeed;
-                projectileScript.damage = 10; // base damage value
+                projectileScript.damage = 10;
                 projectileScript.critChance = critChance;
                 projectileScript.source = ProjectileSource.Player;
             }

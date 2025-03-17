@@ -1,29 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+//using UnityEngine;
+//using UnityEngine.SceneManagement;
 
-public class MainMenuEvents : MonoBehaviour
-{
-    private UIDocument _document;
-    private Button _button;
+//public class MainMenu : MonoBehaviour
+//{
+//    public GameObject mainMenuUI;
 
+//    void Start()
+//    {
+//        Time.timeScale = 0f; // Ensure the game is paused on start
+//        mainMenuUI.SetActive(true);
+//    }
 
-    private void Awake()
-    {
-        _document = GetComponent<UIDocument>();
-        _button = _document.rootVisualElement.Q("StartButton") as Button;
-        _button.RegisterCallback<ClickEvent>(OnPlayGameClick);
+//    public void StartGame()
+//    {
+//        Time.timeScale = 1f; // Resume the game
+//        mainMenuUI.SetActive(false);
+//    }
 
-    }
-
-    private void OnDisable()
-    {
-        _button.UnregisterCallback<ClickEvent>(OnPlayGameClick);
-    }
-
-    private void OnPlayGameClick(ClickEvent evt)
-    {
-        Debug.Log("Start Pressed");
-    }
-}
+//    public void QuitGame()
+//    {
+//        Debug.Log("Game Quit.");
+//        Application.Quit();
+//    }
+//}
