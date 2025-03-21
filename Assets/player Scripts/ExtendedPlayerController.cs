@@ -6,19 +6,26 @@ public class PlayerController3D : MonoBehaviour
     public float moveSpeed = 5f;
     public float rotationSpeed = 100f;
 
+    [Header("Level")]
+    public float _level = 1;
+    public float _experience = 0f;
+    public float _experienceToLevel = 1000;
+
+
     [Header("Stats")]
     public int baseHealth = 100;
     public int baseMana = 50;
     public int bonusMana;
     public int bonusHP = 0;
     public int bonusProjectiles = 0;
-    public float critChance = 0.1f; // 10% chance
+    public float critChance = 0.1f; // 10% chance 
 
     [Header("Shooting Settings")]
     public GameObject projectilePrefab;
     public Transform firePoint;
     public float projectileSpeed = 10f;
     public float fireRate = 0.5f; // seconds between shots
+    
 
     private int currentHealth;
     private int currentMana;
@@ -169,4 +176,7 @@ public class PlayerController3D : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
+
 }

@@ -15,7 +15,7 @@ public class Enemy3D : MonoBehaviour
     public float fireRate = 1.0f;         // Time between shots.
     public GameObject projectilePrefab;
     public Transform firePoint;
-
+    public GameObject deathPrefab;
     private GameObject player;
     private NavMeshAgent agent;
 
@@ -113,6 +113,8 @@ public class Enemy3D : MonoBehaviour
         {
             Debug.Log("Enemy died");
             Destroy(gameObject);
+            Instantiate(deathPrefab, transform.position, transform.rotation);
+
         }
     }
 }
