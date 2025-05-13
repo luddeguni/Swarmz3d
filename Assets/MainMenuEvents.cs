@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -6,9 +7,11 @@ public class MainMenu : MonoBehaviour
 {
     public UIDocument mainMenuDocument;
     public UIDocument pauseMenuDocument;
+    public UIDocument inGameUIDocument;
 
     private VisualElement mainMenuUI;
     private VisualElement pauseMenuUI;
+    private VisualElement inGameUi;
 
     private Button startButton;
     private Button quitButton;
@@ -22,6 +25,7 @@ public class MainMenu : MonoBehaviour
         // Get root elements
         mainMenuUI = mainMenuDocument.rootVisualElement;
         pauseMenuUI = pauseMenuDocument.rootVisualElement;
+        inGameUi = inGameUIDocument.rootVisualElement;
 
         // Get buttons from main menu
         startButton = mainMenuUI.Q<Button>("StartButton");

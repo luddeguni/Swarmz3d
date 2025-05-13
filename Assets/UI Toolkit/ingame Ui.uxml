@@ -1,6 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/bars.uss?fileID=7433441132597879392&amp;guid=a716abdcb6fa2034e9e351f610be0737&amp;type=3#bars" />
-    <ui:VisualElement name="Container" style="flex-grow: 1;">
-        <ui:ProgressBar value="22" title="Experience" usage-hints="DynamicTransform" class="bars" style="height: 23px; position: absolute; right: 1px; width: 1911px;" />
-    </ui:VisualElement>
-</ui:UXML>
