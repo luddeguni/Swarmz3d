@@ -6,4 +6,5 @@
         <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="settingsbutton" class="button" />
         <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit" class="button" />
     </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1;" />
 </ui:UXML>

@@ -4,7 +4,8 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - mainMenuUI: {fileID: 7557694435389753534, guid: d174eacdffcecad4c80218095236a4b2, type: 3}
+  - mainMenuDocument: {fileID: 3655291754990114093, guid: d174eacdffcecad4c80218095236a4b2, type: 3}
+  - pauseMenuDocument: {fileID: 4558593786996299069, guid: 725cfa59eaf2ddc4e89ec231cc6f1061, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
